@@ -1,0 +1,236 @@
+/* 
+ * acerca.css - Estilos para la sección "Acerca de nosotros" del proyecto Evolución
+ * Proyecto Evolución - Arqueología y Restauración
+ */
+
+/* Sección principal */
+.about {
+    padding: var(--space-9) 0;
+    background-color: var(--color-fondo);
+}
+
+.about__title {
+    font-family: var(--font-principal);
+    font-size: var(--fs-xxl);
+    color: var(--color-primario);
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+/* Grid de Misión, Visión y Valores */
+.about__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-9);
+}
+
+.about__card {
+    background-color: var(--color-blanco);
+    padding: var(--space-6);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.about__card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.about__card-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+}
+
+.about__card-title {
+    font-family: var(--font-principal);
+    font-size: var(--fs-lg);
+    color: var(--color-primario);
+    margin-bottom: var(--space-3);
+}
+
+.about__card-text {
+    font-family: var(--font-cuerpo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+/* Línea de tiempo */
+.timeline {
+    position: relative;
+    padding: var(--space-7) 0;
+}
+
+.timeline__title {
+    font-family: var(--font-principal);
+    font-size: var(--fs-xl);
+    color: var(--color-primario);
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+
+/* Filtros */
+.timeline__filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-7);
+}
+
+.timeline__filter {
+    padding: var(--space-2) var(--space-4);
+    background-color: transparent;
+    border: 2px solid var(--color-secundario);
+    border-radius: 50px;
+    font-family: var(--font-cuerpo);
+    font-weight: 500;
+    color: var(--color-texto);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.timeline__filter:hover {
+    background-color: var(--color-secundario);
+    color: var(--color-blanco);
+}
+
+.timeline__filter.active {
+    background-color: var(--color-acento);
+    border-color: var(--color-acento);
+    color: var(--color-blanco);
+}
+
+/* Línea central */
+.timeline__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background-color: var(--color-secundario);
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* Contenedor de items */
+.timeline__items {
+    position: relative;
+    z-index: 2;
+}
+
+/* Items individuales */
+.timeline__item {
+    position: relative;
+    width: 50%;
+    padding: var(--space-5);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.timeline__item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline__item:nth-child(odd) {
+    left: 0;
+    padding-right: var(--space-7);
+}
+
+.timeline__item:nth-child(even) {
+    left: 50%;
+    padding-left: var(--space-7);
+}
+
+/* Punto de la línea de tiempo */
+.timeline__dot {
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--color-acento);
+    border: 4px solid var(--color-blanco);
+    box-shadow: 0 0 0 3px var(--color-acento);
+    z-index: 3;
+}
+
+.timeline__item:nth-child(odd) .timeline__dot {
+    right: -10px;
+}
+
+.timeline__item:nth-child(even) .timeline__dot {
+    left: -10px;
+}
+
+/* Contenido de cada item */
+.timeline__content {
+    background-color: var(--color-blanco);
+    padding: var(--space-5);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline__content:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.timeline__year {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--color-acento);
+    color: var(--color-blanco);
+    font-family: var(--font-cuerpo);
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    border-radius: 50px;
+    margin-bottom: var(--space-3);
+}
+
+.timeline__item-title {
+    font-family: var(--font-principal);
+    font-size: var(--fs-md);
+    color: var(--color-primario);
+    margin-bottom: var(--space-2);
+}
+
+.timeline__description {
+    font-family: var(--font-cuerpo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .timeline__item {
+        width: 100%;
+        left: 0 !important;
+        padding-right: 0 !important;
+        padding-left: var(--space-5) !important;
+    }
+    
+    .timeline__item:nth-child(even),
+    .timeline__item:nth-child(odd) {
+        padding-left: var(--space-5);
+        padding-right: 0;
+    }
+    
+    .timeline__dot {
+        left: 0 !important;
+        right: auto !important;
+    }
+    
+    .timeline__line {
+        left: 0;
+    }
+    
+    .about__grid {
+        grid-template-columns: 1fr;
+    }
+}

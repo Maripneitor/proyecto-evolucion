@@ -25,9 +25,13 @@ async function loadComponent(componentId, filePath) {
         
         // Obtiene el contenido HTML
         const html = await response.text();
+        const container = document.getElementById(componentId);
         
         // Inserta el contenido en el contenedor especificado
-        document.getElementById(componentId).innerHTML = html;
+        container.innerHTML = html;
+        
+        // EJECUTAR SCRIPTS INCORPORADOS (NUEVA FUNCIONALIDAD)
+        executeScripts(container);
         
     } catch (error) {
         // Manejo de errores con mensaje descriptivo
@@ -39,6 +43,32 @@ async function loadComponent(componentId, filePath) {
             </div>
         `;
     }
+}
+
+/**
+ * Función que ejecuta los scripts dentro del contenido cargado
+ * @param {HTMLElement} container - Contenedor con el HTML recién cargado
+ */
+function executeScripts(container) {
+    // Buscar todos los scripts dentro del contenido cargado
+    const scripts = container.querySelectorAll('script');
+    
+    // Iterar sobre cada script encontrado
+    scripts.forEach(oldScript => {
+        // Crear un nuevo script
+        const newScript = document.createElement('script');
+        
+        // Copiar todos los atributos del script original
+        Array.from(oldScript.attributes).forEach(attr => {
+            newScript.setAttribute(attr.name, attr.value);
+        });
+        
+        // Copiar el contenido del script original
+        newScript.textContent = oldScript.textContent;
+        
+        // Reemplazar el script original con el nuevo (que se ejecutará)
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
 }
 
 /**
