@@ -1,0 +1,61 @@
+<header class="header">
+    <div class="container">
+        <!-- Logo -->
+        <a href="index.html" class="header__logo">
+            <span class="header__logo-icon">🏺</span>
+            <span class="header__logo-text">Evolución</span>
+        </a>
+
+        <!-- Navegación principal -->
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item"><a href="#inicio" class="header__nav-link">Inicio</a></li>
+                <li class="header__nav-item"><a href="#nosotros" class="header__nav-link">Nosotros</a></li>
+                <li class="header__nav-item"><a href="#proyectos" class="header__nav-link">Proyectos</a></li>
+                <li class="header__nav-item"><a href="#contacto" class="header__nav-link">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <!-- Botón menú hamburguesa (solo visible en móvil) -->
+        <button class="header__toggle" aria-label="Abrir menú">
+            <span class="header__toggle-bar"></span>
+            <span class="header__toggle-bar"></span>
+            <span class="header__toggle-bar"></span>
+        </button>
+    </div>
+
+    <!-- Script para funcionalidad del header -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.header');
+            const toggleBtn = document.querySelector('.header__toggle');
+            const nav = document.querySelector('.header__nav');
+            
+            // Efecto de scroll - cambiar apariencia al hacer scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Toggle menú móvil
+            toggleBtn.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                toggleBtn.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            });
+            
+            // Cerrar menú al hacer clic en un enlace (útil en móvil)
+            const navLinks = document.querySelectorAll('.header__nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('active');
+                    toggleBtn.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                });
+            });
+        });
+    </script>
+</header>

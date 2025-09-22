@@ -1,0 +1,180 @@
+/* 
+ * header.css - Estilos para el encabezado del proyecto Evolución
+ * Proyecto Evolución - Arqueología y Restauración
+ */
+
+/* Contenedor principal del header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+/* Header con scroll - cambia apariencia al bajar */
+.header.scrolled {
+    background-color: var(--color-fondo);
+    box-shadow: var(--shadow-md);
+    padding: 0.5rem 0;
+}
+
+/* Contenedor interno para centrar contenido */
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos del logo */
+.header__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-family: var(--font-principal);
+    font-weight: 700;
+    font-size: var(--fs-lg);
+    color: var(--color-texto);
+    transition: color 0.3s ease;
+}
+
+.header__logo:hover {
+    color: var(--color-acento);
+}
+
+.header__logo-icon {
+    margin-right: 0.5rem;
+    font-size: var(--fs-xl);
+}
+
+/* Navegación principal */
+.header__nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-5);
+}
+
+.header__nav-link {
+    font-family: var(--font-cuerpo);
+    font-weight: 500;
+    color: var(--color-texto);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.header__nav-link:hover {
+    color: var(--color-acento);
+}
+
+/* Efecto subrayado al pasar el mouse */
+.header__nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: width 0.3s ease;
+}
+
+.header__nav-link:hover::after {
+    width: 100%;
+}
+
+/* Botón menú hamburguesa (oculto en escritorio) */
+.header__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.header__toggle-bar {
+    width: 25px;
+    height: 2px;
+    background-color: var(--color-texto);
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* Estado activo del botón hamburguesa */
+.header__toggle.active .header__toggle-bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.header__toggle.active .header__toggle-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.header__toggle.active .header__toggle-bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Estilos responsivos - Menú móvil */
+@media (max-width: 768px) {
+    /* Mostrar botón hamburguesa */
+    .header__toggle {
+        display: flex;
+        z-index: 1001;
+    }
+    
+    /* Ocultar navegación por defecto */
+    .header__nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--color-fondo);
+        box-shadow: var(--shadow-lg);
+        transition: right 0.4s ease;
+        padding: 5rem 2rem 2rem;
+        z-index: 999;
+    }
+    
+    /* Mostrar navegación cuando está activa */
+    .header__nav.active {
+        right: 0;
+    }
+    
+    /* Cambiar a diseño vertical en móvil */
+    .header__nav-list {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    
+    .header__nav-link {
+        font-size: var(--fs-md);
+        padding: 0.75rem 0;
+        display: block;
+    }
+    
+    /* Prevenir scroll cuando el menú está abierto */
+    .no-scroll {
+        overflow: hidden;
+    }
+    
+    /* Ajustar padding del header en móvil */
+    .header {
+        padding: 0.75rem 0;
+    }
+    
+    .header.scrolled {
+        padding: 0.5rem 0;
+    }
+}
