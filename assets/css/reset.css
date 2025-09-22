@@ -1,0 +1,47 @@
+/* 
+ * reset.css - Reset moderno y minimalista para normalizar estilos entre navegadores
+ * Proyecto Evolución - Arqueología y Restauración
+ */
+
+/* Aplica border-box a todos los elementos para un cálculo de dimensiones más intuitivo */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Elimina márgenes y rellenos por defecto */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Mejora la consistencia visual entre navegadores */
+html, body {
+    height: 100%;
+}
+
+/* Mejora la renderización de texto */
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Evita desbordamientos de imágenes */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* Hereda fuentes para controles de formulario */
+input, button, textarea, select {
+    font: inherit;
+}
+
+/* Evita desbordamientos de texto */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+/* Crea un contexto de apilamiento para la raíz */
+#root, #__next {
+    isolation: isolate;
+}

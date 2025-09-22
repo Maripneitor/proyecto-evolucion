@@ -1,0 +1,67 @@
+/* 
+ * variables.css - Sistema de diseño con variables CSS para el proyecto Evolución
+ * Proyecto Evolución - Arqueología y Restauración
+ */
+
+:root {
+    /* 
+     * PALETA DE COLORES - Inspirada en la arqueología y antigüedades
+     */
+    
+    /* Colores principales de la marca */
+    --color-primario: #5D4037;    /* Tierra oscura - para elementos principales */
+    --color-secundario: #BCAAA4;  /* Piedra clara - para elementos secundarios */
+    --color-acento: #C9A469;      /* Oro antiguo - para acentos y llamadas a la acción */
+    --color-fondo: #F5F5F0;       /* Pergamino - color de fondo principal */
+    --color-texto: #373737;       /* Casi negro - color de texto principal */
+    --color-blanco: #FFFFFF;      /* Blanco puro */
+    
+    /* Variaciones de colores para estados */
+    --color-primario-oscuro: #4E342E;
+    --color-acento-oscuro: #B2893E;
+    --color-fondo-oscuro: #E8E8E0;
+    
+    /* 
+     * TIPOGRAFÍA - Combinación clásica y legible
+     */
+    --font-principal: 'Lora', serif;      /* Para títulos y elementos destacados */
+    --font-cuerpo: 'Lato', sans-serif;    /* Para texto general y párrafos */
+    
+    /* 
+     * ESCALA DE TIPOGRAFÍA - Sistema modular scale (1.250 ratio)
+     */
+    --fs-base: 1rem;      /* 16px - Tamaño base */
+    --fs-sm: 0.8rem;      /* 12.8px - Texto pequeño */
+    --fs-md: 1.25rem;     /* 20px - Subtítulos */
+    --fs-lg: 1.563rem;    /* 25px - Encabezados menores */
+    --fs-xl: 1.953rem;    /* 31.25px - Encabezados principales */
+    --fs-xxl: 2.441rem;   /* 39.06px - Títulos grandes */
+    
+    /* 
+     * ESPACIADO - Sistema basado en múltiplos de 0.5rem (8px)
+     */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-5: 1.5rem;    /* 24px */
+    --space-6: 2rem;      /* 32px */
+    --space-7: 2.5rem;    /* 40px */
+    --space-8: 3rem;      /* 48px */
+    --space-9: 4rem;      /* 64px */
+    --space-10: 5rem;     /* 80px */
+    
+    /* 
+     * SOMBRAS - Efectos sutiles para profundidad
+     */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* 
+     * BORDES - Radio consistente para elementos
+     */
+    --border-radius: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+}
