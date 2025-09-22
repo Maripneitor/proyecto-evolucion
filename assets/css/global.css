@@ -162,3 +162,12 @@ button:active {
     white-space: nowrap;
     border: 0;
 }
+
+/* 
+ * CORRECCIÓN PARA HEADER FIJO
+ * Empuja el contenido principal hacia abajo para evitar que sea ocultado por el header fijo
+ * La altura (5rem) debe coincidir con la altura del header + su padding
+ */
+main {
+    padding-top: 5rem;
+}

@@ -121,7 +121,7 @@
     z-index: 2;
 }
 
-/* Items individuales */
+/* Items individuales - ESTADO INICIAL (OCULTO) */
 .timeline__item {
     position: relative;
     width: 50%;
@@ -131,6 +131,7 @@
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
+/* Items individuales - ESTADO VISIBLE (CORREGIDO) */
 .timeline__item.visible {
     opacity: 1;
     transform: translateY(0);
