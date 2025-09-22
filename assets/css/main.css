@@ -6,26 +6,6 @@
  * 1. Reset CSS para normalizar estilos entre navegadores
  * 2. Variables CSS con el sistema de diseño
  * 3. Estilos globales y base
- */
-
-@import url('./reset.css');
-@import url('./variables.css');
-@import url('./global.css');
-
-/* 
- * Aquí puedes agregar estilos específicos para componentes o páginas
- * una vez que el sistema base esté establecido
- */
-
-
- /* 
- * main.css - Archivo principal de estilos para el proyecto Evolución
- * Proyecto Evolución - Arqueología y Restauración
- * 
- * Este archivo importa todos los componentes CSS en el orden correcto:
- * 1. Reset CSS para normalizar estilos entre navegadores
- * 2. Variables CSS con el sistema de diseño
- * 3. Estilos globales y base
  * 4. Componentes específicos
  */
 
@@ -33,6 +13,7 @@
 @import url('./variables.css');
 @import url('./global.css');
 @import url('./components/header.css');
+@import url('./components/hero.css');
 
 /* 
  * Aquí puedes agregar estilos específicos para componentes o páginas
