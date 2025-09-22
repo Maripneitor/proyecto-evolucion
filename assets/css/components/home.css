@@ -1,0 +1,152 @@
+/* 
+ * home.css - Estilos para la sección de contacto del proyecto Evolución
+ * Proyecto Evolución - Arqueología y Restauración
+ */
+
+/* Sección de contacto */
+.contact {
+    padding: var(--space-9) 0;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+}
+
+/* Columna de información */
+.contact__info {
+    padding-right: var(--space-5);
+}
+
+.contact__title {
+    font-family: var(--font-principal);
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-5);
+    color: var(--color-blanco);
+}
+
+.contact__description {
+    font-family: var(--font-cuerpo);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+    opacity: 0.9;
+}
+
+.contact__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.contact__detail {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+.contact__icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.contact__text h3 {
+    font-family: var(--font-principal);
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-1);
+    color: var(--color-blanco);
+}
+
+.contact__text p {
+    font-family: var(--font-cuerpo);
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Columna del formulario */
+.contact__form-container {
+    background-color: var(--color-blanco);
+    padding: var(--space-6);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.form__label {
+    font-family: var(--font-cuerpo);
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.form__input,
+.form__textarea {
+    padding: var(--space-3);
+    border: 2px solid var(--color-secundario);
+    border-radius: var(--border-radius);
+    font-family: var(--font-cuerpo);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form__input:focus,
+.form__textarea:focus {
+    outline: none;
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 3px rgba(201, 164, 105, 0.2);
+}
+
+.form__textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form__submit {
+    align-self: flex-start;
+    margin-top: var(--space-3);
+}
+
+/* Estilos responsivos */
+@media (max-width: 968px) {
+    .contact__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+    
+    .contact__info {
+        padding-right: 0;
+        text-align: center;
+    }
+    
+    .contact__details {
+        align-items: center;
+    }
+    
+    .contact__detail {
+        justify-content: center;
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact__form-container {
+        padding: var(--space-4);
+    }
+    
+    .contact__detail {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-2);
+    }
+}

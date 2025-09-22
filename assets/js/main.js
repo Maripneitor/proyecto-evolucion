@@ -85,6 +85,9 @@ function loadAllComponents() {
     // Carga la sección acerca de nosotros
     loadComponent('acerca-container', 'partials/acerca.html');
     
+    // NUEVO: Carga la sección de contacto
+    loadComponent('contacto-container', 'partials/contacto.html');
+    
     // Carga el pie de página
     loadComponent('footer-container', 'partials/footer.html');
 }
