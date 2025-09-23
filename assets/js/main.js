@@ -1,13 +1,14 @@
 /**
  * main.js - Script principal para el proyecto "Evolución"
  * Carga dinámicamente componentes HTML en contenedores
+ * Versión refactorizada para evitar condiciones de carrera
  */
 
-// Espera a que el DOM esté completamente cargado
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('[main.js] DOM completamente cargado. Iniciando carga de componentes...');
-    loadAllComponents();
-});
+// Importar funciones de inicialización de componentes
+import { initAcercaSection } from './components/acerca.js';
+// (Aquí irían otras importaciones de inicializadores en el futuro)
+// import { initHeader } from './components/header.js';
+// import { initHero } from './components/hero.js';
 
 /**
  * Función asíncrona para cargar componentes HTML externos
@@ -30,98 +31,88 @@ async function loadComponent(componentId, filePath) {
         const html = await response.text();
         const container = document.getElementById(componentId);
         
+        if (!container) {
+            throw new Error(`Contenedor con ID '${componentId}' no encontrado en el DOM`);
+        }
+        
         // Inserta el contenido en el contenedor especificado
         container.innerHTML = html;
-        
-        // EJECUTAR SCRIPTS INCORPORADOS (NUEVA FUNCIONALIDAD)
-        executeScripts(container, componentId);
+        console.log(`[main.js] Componente '${componentId}' cargado exitosamente.`);
         
     } catch (error) {
         // Manejo de errores con mensaje descriptivo
-        console.error('Error:', error);
-        document.getElementById(componentId).innerHTML = `
-            <div class="error">
-                <p>Error al cargar el componente: ${filePath}</p>
-                <p>${error.message}</p>
-            </div>
-        `;
-    }
-}
-
-/**
- * Función que ejecuta los scripts dentro del contenido cargado
- * @param {HTMLElement} container - Contenedor con el HTML recién cargado
- * @param {string} componentId - ID del componente para logging
- */
-function executeScripts(container, componentId) {
-    // Buscar todos los scripts dentro del contenido cargado
-    const scripts = container.querySelectorAll('script');
-    
-    // DIAGNÓSTICO: Log del número de scripts encontrados
-    console.log(`[main.js] Componente '${componentId}' cargado. Se encontraron ${scripts.length} script(s).`);
-    
-    // Iterar sobre cada script encontrado
-    scripts.forEach((oldScript, index) => {
-        console.log(`[main.js] Procesando script ${index + 1} para '${componentId}':`, oldScript.src || 'script inline');
-        
-        // Crear un nuevo script
-        const newScript = document.createElement('script');
-        
-        // Copiar todos los atributos del script original
-        Array.from(oldScript.attributes).forEach(attr => {
-            newScript.setAttribute(attr.name, attr.value);
-        });
-        
-        // Copiar el contenido del script original (para scripts inline)
-        if (oldScript.src) {
-            // Para scripts externos, mantener la referencia src
-            newScript.src = oldScript.src;
-            // Añadir evento para detectar cuando se carga
-            newScript.onload = () => {
-                console.log(`[main.js] Script externo ${index + 1} cargado correctamente para '${componentId}'`);
-            };
-            newScript.onerror = () => {
-                console.error(`[main.js] Error al cargar script externo ${index + 1} para '${componentId}'`);
-            };
-        } else {
-            // Para scripts inline, copiar el contenido
-            newScript.textContent = oldScript.textContent;
+        console.error(`[main.js] Error al cargar el componente ${componentId}:`, error);
+        const container = document.getElementById(componentId);
+        if (container) {
+            container.innerHTML = `
+                <div class="error">
+                    <p>Error al cargar el componente: ${filePath}</p>
+                    <p>${error.message}</p>
+                </div>
+            `;
         }
-        
-        // DIAGNÓSTICO: Log antes de ejecutar el script
-        console.log(`[main.js] Ejecutando script para '${componentId}'.`);
-        
-        // Añadir el nuevo script al final del body para forzar su ejecución
-        document.body.appendChild(newScript);
-        
-        // Eliminar el script original (opcional)
-        oldScript.parentNode.removeChild(oldScript);
-        
-        console.log(`[main.js] Script ${index + 1} procesado para '${componentId}'`);
-    });
+    }
 }
 
 /**
  * Función que carga todos los componentes de la aplicación
  * coordinando las llamadas a loadComponent para cada sección
  */
-function loadAllComponents() {
+async function loadAllComponents() {
     console.log('[main.js] Iniciando carga de todos los componentes...');
     
-    // Carga el encabezado
-    loadComponent('header-container', 'partials/header.html');
-    
-    // Carga la sección hero
-    loadComponent('hero-container', 'partials/hero.html');
-    
-    // Carga la sección acerca de nosotros
-    loadComponent('acerca-container', 'partials/acerca.html');
-    
-    // Carga la sección de contacto
-    loadComponent('contacto-container', 'partials/contacto.html');
-    
-    // Carga el pie de página
-    loadComponent('footer-container', 'partials/footer.html');
-    
-    console.log('[main.js] Todas las solicitudes de carga de componentes han sido iniciadas.');
+    try {
+        // Cargar todos los componentes en paralelo
+        await Promise.all([
+            loadComponent('header-container', 'partials/header.html'),
+            loadComponent('hero-container', 'partials/hero.html'),
+            loadComponent('acerca-container', 'partials/acerca.html'),
+            loadComponent('contacto-container', 'partials/contacto.html'),
+            loadComponent('footer-container', 'partials/footer.html')
+        ]);
+        
+        console.log('[main.js] ✅ Todo el HTML ha sido cargado exitosamente.');
+        return true;
+        
+    } catch (error) {
+        console.error('[main.js] ❌ Error durante la carga de componentes:', error);
+        return false;
+    }
 }
+
+/**
+ * Función que inicializa todos los componentes JavaScript
+ * Se llama después de que todo el HTML esté cargado
+ */
+function initializeComponents() {
+    console.log('[main.js] Inicializando componentes JavaScript...');
+    
+    // Inicializar cada sección en el orden correcto
+    initAcercaSection();
+    // initHeader();
+    // initHero();
+    // initContacto();
+    
+    console.log('[main.js] ✅ Todos los componentes han sido inicializados.');
+}
+
+// Espera a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('[main.js] DOM completamente cargado. Iniciando proceso de carga...');
+    
+    // Primero: Cargar todo el HTML
+    const htmlLoaded = await loadAllComponents();
+    
+    if (htmlLoaded) {
+        // Segundo: Inicializar los componentes JavaScript
+        // Usamos un pequeño delay para asegurar que el DOM está listo
+        setTimeout(() => {
+            initializeComponents();
+        }, 100);
+    } else {
+        console.error('[main.js] No se pudo inicializar los componentes debido a errores en la carga del HTML.');
+    }
+});
+
+// Exportar funciones para posible uso externo
+export { loadComponent, loadAllComponents, initializeComponents };
