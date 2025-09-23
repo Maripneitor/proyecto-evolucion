@@ -38,6 +38,21 @@
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: var(--space-6);
     margin-top: var(--space-6);
+    min-height: 400px; /* Altura mínima para debugging */
+}
+
+/* Mensaje de carga */
+.loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--color-secundario);
+    font-family: var(--font-cuerpo);
+}
+
+.loading-message p {
+    font-size: var(--fs-md);
+    margin: 0;
 }
 
 /* Tarjeta de proyecto */
@@ -51,6 +66,7 @@
     color: inherit;
     transition: all 0.3s ease;
     height: 100%;
+    border: 2px solid transparent;
 }
 
 .project-card:hover {
@@ -58,23 +74,24 @@
     box-shadow: var(--shadow-lg);
     text-decoration: none;
     color: inherit;
+    border-color: var(--color-acento);
 }
 
-/* Imagen de la tarjeta */
-.project-card__image {
+/* Contenedor de imagen */
+.project-card__image-container {
     position: relative;
     height: 250px;
     overflow: hidden;
 }
 
-.project-card__image img {
+.project-card__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.project-card:hover .project-card__image img {
+.project-card:hover .project-card__image {
     transform: scale(1.05);
 }
 
@@ -136,32 +153,28 @@
     text-align: right;
 }
 
-/* Filtros (para futura implementación) */
-.projects-filters {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-bottom: var(--space-6);
-}
-
-.projects-filter {
-    padding: var(--space-2) var(--space-4);
-    background-color: transparent;
-    border: 2px solid var(--color-secundario);
-    border-radius: 50px;
+/* Mensaje cuando no hay proyectos */
+.no-projects {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--color-secundario);
     font-family: var(--font-cuerpo);
-    font-weight: 500;
-    color: var(--color-texto);
-    cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: var(--fs-md);
+    background-color: var(--color-blanco);
+    border-radius: var(--border-radius);
+    border: 2px dashed var(--color-secundario);
 }
 
-.projects-filter:hover,
-.projects-filter.active {
-    background-color: var(--color-acento);
-    border-color: var(--color-acento);
-    color: var(--color-blanco);
+/* Estados de diagnóstico */
+.projects-grid.debug {
+    border: 2px solid red;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.project-card.debug {
+    border: 2px solid blue;
+    background-color: rgba(0, 0, 255, 0.1);
 }
 
 /* Estilos responsivos */
@@ -189,7 +202,7 @@
         grid-template-columns: 1fr;
     }
     
-    .project-card__image {
+    .project-card__image-container {
         height: 200px;
     }
     
@@ -202,19 +215,4 @@
     .project-card__location {
         text-align: left;
     }
-}
-
-/* Estados de carga */
-.projects-grid.loading {
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-/* Mensaje cuando no hay proyectos */
-.no-projects {
-    text-align: center;
-    padding: var(--space-8);
-    color: var(--color-secundario);
-    font-family: var(--font-cuerpo);
-    font-size: var(--fs-md);
 }

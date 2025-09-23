@@ -5,70 +5,81 @@
 
 import { projectsData } from '../data/proyectosData.js';
 
-/**
- * Crea el HTML para una tarjeta de proyecto
- * @param {Object} project - Datos del proyecto
- * @returns {string} HTML de la tarjeta
- */
-function createProjectCard(project) {
-    return `
-        <a href="proyecto-detalle.html?id=${project.id}" class="project-card" data-category="${project.category.toLowerCase()}">
-            <div class="project-card__image">
-                <img src="${project.image}" alt="${project.title}" loading="lazy">
-                <div class="project-card__category">${project.category}</div>
+console.log('[proyectos.js] Script cargado correctamente');
+console.log('[proyectos.js] projectsData importado:', projectsData);
+
+function initProjectsPage() {
+    console.log('[proyectos.js] Iniciando la página de proyectos...');
+    console.log('[proyectos.js] Estado del DOM:', document.readyState);
+
+    const gridContainer = document.getElementById('projects-grid-container');
+
+    if (!gridContainer) {
+        console.error('[proyectos.js] Error: No se encontró el contenedor #projects-grid-container. Deteniendo ejecución.');
+        console.error('[proyectos.js] Búsqueda en el documento completo:');
+        console.error('[proyectos.js] - Elementos con clase "projects-grid":', document.querySelectorAll('.projects-grid').length);
+        console.error('[proyectos.js] - Elementos con ID que contienen "project":', document.querySelector('[id*="project"]'));
+        return;
+    }
+
+    console.log(`[proyectos.js] Contenedor encontrado. Cargando ${projectsData.length} proyectos...`);
+    console.log('[proyectos.js] Datos de proyectos:', projectsData);
+
+    if (projectsData.length === 0) {
+        console.warn('[proyectos.js] No hay proyectos en los datos. Mostrando mensaje de vacío.');
+        gridContainer.innerHTML = '<p class="no-projects">No hay proyectos para mostrar en este momento.</p>';
+        return;
+    }
+
+    // Limpiamos el contenedor antes de añadir nuevos elementos
+    console.log('[proyectos.js] Limpiando contenedor...');
+    gridContainer.innerHTML = '';
+
+    console.log('[proyectos.js] Creando tarjetas de proyecto...');
+    projectsData.forEach((project, index) => {
+        console.log(`[proyectos.js] Procesando proyecto ${index + 1}:`, project.title);
+        
+        const projectCard = document.createElement('a');
+        projectCard.className = 'project-card';
+        projectCard.href = `proyecto-detalle.html?id=${project.id}`;
+        projectCard.setAttribute('data-project-id', project.id);
+
+        projectCard.innerHTML = `
+            <div class="project-card__image-container">
+                <img src="${project.image}" alt="Imagen de ${project.title}" class="project-card__image" loading="lazy">
+                <span class="project-card__category">${project.category}</span>
             </div>
             <div class="project-card__content">
                 <h3 class="project-card__title">${project.title}</h3>
-                <p class="project-card__description">${project.description}</p>
+                <p class="project-card__description">${project.description.substring(0, 100)}...</p>
                 <div class="project-card__meta">
                     <span class="project-card__year">${project.year}</span>
                     <span class="project-card__location">${project.location}</span>
                 </div>
             </div>
-        </a>
-    `;
-}
-
-/**
- * Renderiza todas las tarjetas de proyectos en el grid
- */
-function renderProjects() {
-    const gridContainer = document.getElementById('projects-grid-container');
-    
-    if (!gridContainer) {
-        console.error('No se encontró el contenedor de proyectos con ID "projects-grid-container"');
-        return;
-    }
-    
-    console.log(`[proyectos.js] Renderizando ${projectsData.length} proyectos`);
-    
-    // Limpiar contenedor antes de renderizar
-    gridContainer.innerHTML = '';
-    
-    // Crear y insertar tarjetas
-    projectsData.forEach(project => {
-        const projectCardHTML = createProjectCard(project);
-        gridContainer.insertAdjacentHTML('beforeend', projectCardHTML);
+        `;
+        
+        gridContainer.appendChild(projectCard);
+        console.log(`[proyectos.js] Tarjeta ${index + 1} añadida al DOM`);
     });
-    
-    console.log('[proyectos.js] Proyectos renderizados exitosamente');
+
+    console.log('[proyectos.js] Todas las tarjetas de proyecto han sido creadas y añadidas al DOM.');
+    console.log('[proyectos.js] Número de tarjetas en el contenedor:', gridContainer.children.length);
 }
 
-/**
- * Inicializa la página de proyectos
- */
+// Asegurarnos de que el script se ejecuta después de que el DOM esté listo
+console.log('[proyectos.js] Verificando estado del DOM para ejecución...');
+
+if (document.readyState === 'loading') {
+    console.log('[proyectos.js] DOM aún cargando. Esperando evento DOMContentLoaded...');
+    document.addEventListener('DOMContentLoaded', initProjectsPage);
+} else {
+    console.log('[proyectos.js] DOM ya está listo. Ejecutando inmediatamente...');
+    initProjectsPage();
+}
+
+// Exportar para posible uso futuro
 export function initProyectosPage() {
-    console.log('[proyectos.js] Inicializando página de proyectos');
-    
-    // Esperar a que el DOM esté listo
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderProjects);
-    } else {
-        renderProjects();
-    }
-}
-
-// Inicializar automáticamente si este script se carga directamente
-if (import.meta.url === document.currentScript.src) {
-    initProyectosPage();
+    console.log('[proyectos.js] Función initProyectosPage() llamada');
+    initProjectsPage();
 }

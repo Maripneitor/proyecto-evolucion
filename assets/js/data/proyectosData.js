@@ -57,6 +57,26 @@ export const projectsData = [
             "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
             "https://images.unsplash.com/photo-1530930329859-42c70a8ed706?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
         ]
-    }
+    },
+
+    {
+    "id": 4,
+    "title": "Restauración del Teatro Romano",
+    "category": "Arquitectura Histórica",
+    "description": "Rehabilitación integral del teatro romano de Mérida para su conservación y uso cultural.",
+    "fullDescription": "Este proyecto abarcó la consolidación estructural, restauración de gradas y escenario, y la instalación de sistemas técnicos modernos para representaciones. La intervención permitió recuperar la acústica original del teatro mientras se garantizaba la seguridad para espectadores y artistas, manteniendo la autenticidad del monumento.",
+    "image": "https://ejemplo.com/imagenes/teatro-romano-principal.jpg",
+    "beforeImage": "https://ejemplo.com/imagenes/teatro-romano-antes.jpg",
+    "afterImage": "https://ejemplo.com/imagenes/teatro-romano-despues.jpg",
+    "year": 2021,
+    "location": "Mérida, España",
+    "duration": "24 meses",
+    "client": "Ministerio de Cultura de España",
+    "gallery": [
+        "https://ejemplo.com/imagenes/teatro-detalle-gradas.jpg",
+        "https://ejemplo.com/imagenes/teatro-vista-aerea.jpg",
+        "https://ejemplo.com/imagenes/teatro-escenario.jpg"
+    ]
+}
     // ... (otros proyectos con la misma estructura extendida)
 ];
