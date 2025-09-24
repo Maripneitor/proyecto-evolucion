@@ -4,6 +4,8 @@
  * Proyecto Evolución - Arqueología y Restauración
  */
 
+import { initHeader } from './components/header.js';
+
 /**
  * Función auxiliar para cargar componentes HTML
  * @param {string} componentId - ID del contenedor
@@ -22,8 +24,13 @@ async function loadComponent(componentId, filePath) {
         if (container) {
             container.innerHTML = html;
             console.log(`[main.js] Componente '${componentId}' cargado exitosamente.`);
+            
+            // Inicializar el header inmediatamente después de cargarlo
+            if (componentId === 'header-container') {
+                console.log('[main.js] Inicializando funcionalidad del header...');
+                initHeader();
+            }
         } else {
-            // No lances un error, solo un aviso. Esto es clave.
             console.warn(`[main.js] Contenedor con ID '${componentId}' no encontrado en esta página.`);
         }
     } catch (error) {

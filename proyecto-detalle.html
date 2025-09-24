@@ -11,7 +11,82 @@
     <div id="header-container"></div>
     
     <main>
-        <!-- Contenido de detalle de proyecto -->
+        <!-- Hero del proyecto -->
+        <section class="project-hero" id="project-hero">
+            <div class="container">
+                <div class="project-hero__content">
+                    <span class="project-hero__category" id="project-category">Cargando categoría...</span>
+                    <h1 class="project-hero__title" id="project-title">Cargando título del proyecto...</h1>
+                    <p class="project-hero__description" id="project-description">Cargando descripción del proyecto...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slider de comparación Antes/Después -->
+        <section class="comparison-section">
+            <div class="container">
+                <h2 class="comparison__title">Progreso del Proyecto</h2>
+                <div class="comparison-container">
+                    <div class="comparison-slider">
+                        <div class="comparison-before">
+                            <img id="comparison-before-img" src="" alt="Estado antes del proyecto" loading="lazy">
+                            <div class="comparison-label">Antes</div>
+                        </div>
+                        <div class="comparison-after">
+                            <img id="comparison-after-img" src="" alt="Estado después del proyecto" loading="lazy">
+                            <div class="comparison-label">Después</div>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" class="comparison-slider-input" id="comparison-slider">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detalles del proyecto -->
+        <section class="project-details">
+            <div class="container">
+                <div class="project-details__grid">
+                    <div class="project-details__info">
+                        <h2>Detalles del Proyecto</h2>
+                        <div class="project-meta">
+                            <div class="project-meta__item">
+                                <span class="project-meta__label">Año:</span>
+                                <span class="project-meta__value" id="project-year">-</span>
+                            </div>
+                            <div class="project-meta__item">
+                                <span class="project-meta__label">Ubicación:</span>
+                                <span class="project-meta__value" id="project-location">-</span>
+                            </div>
+                            <div class="project-meta__item">
+                                <span class="project-meta__label">Duración:</span>
+                                <span class="project-meta__value" id="project-duration">-</span>
+                            </div>
+                            <div class="project-meta__item">
+                                <span class="project-meta__label">Cliente:</span>
+                                <span class="project-meta__value" id="project-client">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-details__content">
+                        <h3>Descripción Completa</h3>
+                        <div class="project-content" id="project-full-description">
+                            <p>Cargando descripción completa del proyecto...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galería adicional -->
+        <section class="project-gallery">
+            <div class="container">
+                <h2>Galería del Proyecto</h2>
+                <div class="gallery-grid" id="project-gallery">
+                    <p>Cargando galería...</p>
+                </div>
+            </div>
+        </section>
     </main>
     
     <!-- Pie de página cargado dinámicamente -->

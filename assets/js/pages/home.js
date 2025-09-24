@@ -7,7 +7,6 @@ import { initAcercaSection } from '../components/acerca.js';
 
 /**
  * Función para cargar componentes específicos de la página de inicio
- * Reutilizamos la lógica de loadComponent
  */
 async function loadPageComponent(componentId, filePath) {
     try {
@@ -58,5 +57,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Exportar para posible uso futuro
 export function initHomePage() {
     console.log('[home.js] Función initHomePage() llamada');
-    // Re-ejecutar la lógica de inicialización si es necesario
 }
