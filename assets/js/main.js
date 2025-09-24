@@ -1,6 +1,6 @@
 /**
  * main.js - Script principal para el proyecto "Evolución"
- * Versión refactorizada: Solo carga componentes comunes (header, footer)
+ * Versión refactorizada: Carga componentes comunes y inicializa header
  * Proyecto Evolución - Arqueología y Restauración
  */
 
@@ -28,7 +28,10 @@ async function loadComponent(componentId, filePath) {
             // Inicializar el header inmediatamente después de cargarlo
             if (componentId === 'header-container') {
                 console.log('[main.js] Inicializando funcionalidad del header...');
-                initHeader();
+                // Pequeño delay para asegurar que el DOM se haya actualizado
+                setTimeout(() => {
+                    initHeader();
+                }, 10);
             }
         } else {
             console.warn(`[main.js] Contenedor con ID '${componentId}' no encontrado en esta página.`);
@@ -40,7 +43,7 @@ async function loadComponent(componentId, filePath) {
 
 // Carga los componentes comunes a todas las páginas
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[main.js] Cargando componentes comunes...');
+    console.log('[main.js] Iniciando carga de componentes comunes...');
     
     Promise.all([
         loadComponent('header-container', 'partials/header.html'),

@@ -22,10 +22,32 @@
         <!-- Grid de proyectos -->
         <section class="projects-section">
             <div class="container">
-                <div class="projects-grid" id="projects-grid-container">
-                    <!-- Las tarjetas de proyectos se insertarán aquí dinámicamente con JavaScript -->
-                    <div class="loading-message">
-                        <p>Cargando proyectos...</p>
+                <!-- Controles de vista -->
+                <div class="view-controls">
+                    <div class="view-controls__container">
+                        <span class="view-controls__label">Ver como:</span>
+                        <div class="view-controls__buttons">
+                            <button class="view-controls__btn view-controls__btn--grid active" 
+                                    data-view="grid" 
+                                    aria-label="Vista de cuadrícula">
+                                ⏹️ Grid
+                            </button>
+                            <button class="view-controls__btn view-controls__btn--list" 
+                                    data-view="list" 
+                                    aria-label="Vista de lista">
+                                📄 Lista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor principal de proyectos -->
+                <div class="projects-container" id="projects-container">
+                    <div class="projects-grid" id="projects-grid-container">
+                        <!-- Las tarjetas de proyectos se insertarán aquí dinámicamente con JavaScript -->
+                        <div class="loading-message">
+                            <p>Cargando proyectos...</p>
+                        </div>
                     </div>
                 </div>
             </div>

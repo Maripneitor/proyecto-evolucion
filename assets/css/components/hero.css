@@ -86,21 +86,56 @@
     font-family: var(--font-cuerpo);
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave y natural */
     border: 2px solid transparent;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Botón principal */
 .btn--primary {
     background-color: var(--color-acento);
     color: var(--color-blanco);
+    box-shadow: 0 4px 15px rgba(201, 164, 105, 0.3);
 }
 
 .btn--primary:hover {
     background-color: var(--color-acento-oscuro);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(201, 164, 105, 0.4);
+}
+
+.btn--primary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(201, 164, 105, 0.3);
+}
+
+/* Efecto de pulso sutil en hover para el botón principal */
+.btn--primary:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.2;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
 }
 
 /* Botón secundario (outline) */
@@ -108,13 +143,36 @@
     background-color: transparent;
     color: var(--color-blanco);
     border-color: var(--color-blanco);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
 }
 
 .btn--secondary:hover {
-    background-color: var(--color-blanco);
-    color: var(--color-primario);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    background-color: var(--color-acento);
+    color: var(--color-blanco);
+    border-color: var(--color-acento);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(201, 164, 105, 0.3);
+}
+
+.btn--secondary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(201, 164, 105, 0.2);
+}
+
+/* Efecto de deslizamiento para el botón secundario */
+.btn--secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn--secondary:hover::before {
+    left: 100%;
 }
 
 /* Indicador de scroll */
@@ -201,6 +259,39 @@
     animation-delay: 0.5s;
 }
 
+/* Efectos de foco para accesibilidad */
+.btn:focus {
+    outline: 2px solid var(--color-blanco);
+    outline-offset: 2px;
+}
+
+.btn--primary:focus {
+    outline-color: var(--color-acento);
+}
+
+/* Estados de carga (para futuras implementaciones) */
+.btn--loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn--loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: var(--space-2);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
     .hero__title {
@@ -221,6 +312,12 @@
         max-width: 280px;
         text-align: center;
     }
+    
+    /* Ajustar efectos para móvil */
+    .btn--primary:hover,
+    .btn--secondary:hover {
+        transform: translateY(-2px);
+    }
 }
 
 @media (max-width: 480px) {
@@ -230,5 +327,10 @@
     
     .hero {
         min-height: 500px;
+    }
+    
+    .btn {
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--fs-sm);
     }
 }

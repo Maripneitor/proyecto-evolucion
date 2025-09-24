@@ -8,7 +8,7 @@ import { projectsData } from '../data/proyectosData.js';
 /**
  * Inicializa la página de detalle de proyecto
  */
-export function initProjectDetailPage() {
+function initProjectDetailPage() {
     console.log('[project-detail.js] Inicializando página de detalle de proyecto...');
     
     // Obtener ID del proyecto desde la URL
@@ -47,12 +47,14 @@ function getProjectIdFromURL() {
     
     if (!id) {
         console.error('[project-detail.js] Error: No se encontró el parámetro "id" en la URL');
+        showError();
         return null;
     }
     
     const projectId = parseInt(id);
     if (isNaN(projectId)) {
         console.error('[project-detail.js] Error: El ID del proyecto no es un número válido:', id);
+        showError();
         return null;
     }
     
@@ -74,6 +76,7 @@ function findProjectById(projectId) {
     if (!project) {
         console.error(`[project-detail.js] Error: No se encontró ningún proyecto con ID: ${projectId}`);
         console.log('[project-detail.js] IDs disponibles:', projectsData.map(p => p.id));
+        showError();
         return null;
     }
     
@@ -102,10 +105,10 @@ function updatePageContent(project) {
     updateImageSource('comparison-after-img', project.afterImage, `Después: ${project.title}`);
     
     // Actualizar detalles del proyecto
-    updateElementContent('project-year', project.year);
-    updateElementContent('project-location', project.location);
-    updateElementContent('project-duration', project.duration);
-    updateElementContent('project-client', project.client);
+    updateElementContent('project-year', project.year || '-');
+    updateElementContent('project-location', project.location || '-');
+    updateElementContent('project-duration', project.duration || '-');
+    updateElementContent('project-client', project.client || '-');
     
     // Actualizar descripción completa
     updateElementContent('project-full-description', project.fullDescription, true);
@@ -137,7 +140,7 @@ function updateElementContent(elementId, content, isHTML = false) {
     }
     
     if (isHTML) {
-        element.innerHTML = content;
+        element.innerHTML = `<p>${content}</p>`;
     } else {
         element.textContent = content;
     }
@@ -161,11 +164,13 @@ function updateImageSource(imageId, src, alt) {
     
     if (!src) {
         console.warn(`[project-detail.js] URL de imagen vacía para '${imageId}'`);
+        image.style.display = 'none';
         return;
     }
     
     image.src = src;
     image.alt = alt;
+    image.style.display = 'block';
     console.log(`[project-detail.js] Imagen '${imageId}' actualizada: ${src}`);
 }
 
@@ -191,7 +196,7 @@ function updateProjectGallery(gallery) {
     
     const galleryHTML = gallery.map((imgUrl, index) => `
         <div class="gallery-item">
-            <img src="${imgUrl}" alt="Imagen ${index + 1} del proyecto" loading="lazy">
+            <img src="${imgUrl}" alt="Imagen ${index + 1} del proyecto ${project.title}" loading="lazy">
         </div>
     `).join('');
     
@@ -250,6 +255,7 @@ function showError() {
                     <div class="error-content">
                         <h1>Proyecto No Encontrado</h1>
                         <p>Lo sentimos, no pudimos encontrar el proyecto solicitado.</p>
+                        <p>El proyecto puede no existir o haber sido removido.</p>
                         <a href="proyectos.html" class="btn btn--primary">Volver a Proyectos</a>
                     </div>
                 </div>
@@ -265,4 +271,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Exportar para posible uso futuro
-export default initProjectDetailPage;
+export { initProjectDetailPage };

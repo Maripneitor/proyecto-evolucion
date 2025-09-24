@@ -39,6 +39,7 @@
     font-size: var(--fs-lg);
     color: var(--color-texto);
     transition: color 0.3s ease;
+    z-index: 1002;
 }
 
 .header__logo:hover {
@@ -101,6 +102,7 @@
     border: none;
     cursor: pointer;
     padding: 0;
+    z-index: 1002;
 }
 
 .header__toggle-bar {
@@ -130,7 +132,6 @@
     /* Mostrar botón hamburguesa */
     .header__toggle {
         display: flex;
-        z-index: 1001;
     }
     
     /* Ocultar navegación por defecto */
@@ -144,7 +145,7 @@
         box-shadow: var(--shadow-lg);
         transition: right 0.4s ease;
         padding: 5rem 2rem 2rem;
-        z-index: 999;
+        z-index: 1001;
     }
     
     /* Mostrar navegación cuando está activa */

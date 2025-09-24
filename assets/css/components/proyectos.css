@@ -32,13 +32,124 @@
     background-color: var(--color-fondo);
 }
 
-/* Grid de proyectos */
-.projects-grid {
+/* Controles de vista */
+.view-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-6);
+}
+
+.view-controls__container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    background-color: var(--color-blanco);
+    padding: var(--space-3);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.view-controls__label {
+    font-family: var(--font-cuerpo);
+    font-size: var(--fs-sm);
+    color: var(--color-texto);
+    font-weight: 500;
+}
+
+.view-controls__buttons {
+    display: flex;
+    gap: var(--space-1);
+    background-color: var(--color-fondo-oscuro);
+    padding: var(--space-1);
+    border-radius: var(--border-radius);
+}
+
+.view-controls__btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    background: transparent;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-cuerpo);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-texto);
+}
+
+.view-controls__btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.view-controls__btn.active {
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Contenedor principal de proyectos */
+.projects-container {
+    transition: all 0.3s ease;
+}
+
+/* Vista por defecto (Grid) */
+.projects-container.view-grid .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: var(--space-6);
+}
+
+/* Vista de lista */
+.projects-container.view-list .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.projects-container.view-list .project-card {
+    display: flex;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 200px;
+}
+
+.projects-container.view-list .project-card__image-container {
+    width: 300px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.projects-container.view-list .project-card__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--space-5);
+}
+
+.projects-container.view-list .project-card__description {
+    -webkit-line-clamp: 3; /* Mostrar más líneas en vista lista */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: var(--space-3);
+}
+
+.projects-container.view-list .project-card__view-link {
+    display: inline-block;
+    color: var(--color-acento);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    margin-top: auto;
+}
+
+/* Grid de proyectos (vista por defecto) */
+.projects-grid {
     margin-top: var(--space-6);
-    min-height: 400px; /* Altura mínima para debugging */
+    min-height: 400px;
 }
 
 /* Mensaje de carga */
@@ -153,6 +264,10 @@
     text-align: right;
 }
 
+.project-card__view-link {
+    display: none; /* Solo visible en vista lista */
+}
+
 /* Mensaje cuando no hay proyectos */
 .no-projects {
     grid-column: 1 / -1;
@@ -178,6 +293,27 @@
 }
 
 /* Estilos responsivos */
+@media (max-width: 968px) {
+    .view-controls {
+        justify-content: center;
+    }
+    
+    .view-controls__container {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .projects-container.view-list .project-card {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .projects-container.view-list .project-card__image-container {
+        width: 100%;
+        height: 200px;
+    }
+}
+
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -194,6 +330,11 @@
     
     .projects-section {
         padding: var(--space-7) 0;
+    }
+    
+    .view-controls__btn {
+        padding: var(--space-1) var(--space-2);
+        font-size: var(--fs-xs);
     }
 }
 
@@ -214,5 +355,10 @@
     
     .project-card__location {
         text-align: left;
+    }
+    
+    .view-controls__buttons {
+        width: 100%;
+        justify-content: center;
     }
 }

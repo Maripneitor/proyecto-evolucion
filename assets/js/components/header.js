@@ -1,5 +1,5 @@
 /**
- * header.js - Funcionalidad para el encabezado del proyecto Evolución
+ * header.js - Funcionalidad completa del header para el proyecto Evolución
  * Proyecto Evolución - Arqueología y Restauración
  */
 
@@ -9,29 +9,19 @@
 export function initHeader() {
     console.log('[header.js] Inicializando funcionalidad del header...');
     
+    // Verificar que el header existe en el DOM
     const header = document.querySelector('.header');
-    const toggleBtn = document.querySelector('.header__toggle');
-    const nav = document.querySelector('.header__nav');
-    
     if (!header) {
         console.warn('[header.js] No se encontró el elemento .header en el DOM');
         return;
     }
 
-    // 1. Efecto de scroll
+    // Inicializar todas las funcionalidades
     initScrollEffect(header);
-    
-    // 2. Menú móvil
-    if (toggleBtn && nav) {
-        initMobileMenu(toggleBtn, nav);
-    } else {
-        console.warn('[header.js] Elementos del menú móvil no encontrados');
-    }
-    
-    // 3. Navegación por anclas
+    initMobileMenu();
     initAnchorNavigation();
     
-    console.log('[header.js] Header inicializado correctamente');
+    console.log('[header.js] Header inicializado correctamente en todas las páginas');
 }
 
 /**
@@ -41,65 +31,87 @@ export function initHeader() {
 function initScrollEffect(header) {
     console.log('[header.js] Configurando efecto de scroll...');
     
-    window.addEventListener('scroll', function() {
+    const updateHeaderScroll = () => {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-    });
+    };
+    
+    // Configurar el evento de scroll
+    window.addEventListener('scroll', updateHeaderScroll);
     
     // Aplicar estado inicial
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    }
+    updateHeaderScroll();
 }
 
 /**
  * Inicializa el menú móvil
- * @param {HTMLElement} toggleBtn - Botón de toggle del menú
- * @param {HTMLElement} nav - Elemento de navegación
  */
-function initMobileMenu(toggleBtn, nav) {
+function initMobileMenu() {
     console.log('[header.js] Configurando menú móvil...');
     
-    // Toggle menú móvil
-    toggleBtn.addEventListener('click', function() {
-        const isOpening = !nav.classList.contains('active');
-        
-        nav.classList.toggle('active');
-        toggleBtn.classList.toggle('active');
-        document.body.classList.toggle('no-scroll');
-        
-        console.log(`[header.js] Menú móvil ${isOpening ? 'abierto' : 'cerrado'}`);
-    });
+    const toggleBtn = document.querySelector('.header__toggle');
+    const nav = document.querySelector('.header__nav');
     
-    // Cerrar menú al hacer clic en un enlace (útil en móvil)
+    if (!toggleBtn || !nav) {
+        console.warn('[header.js] Elementos del menú móvil no encontrados');
+        return;
+    }
+
+    // Toggle del menú móvil
+    toggleBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMobileMenu(nav, toggleBtn);
+    });
+
+    // Cerrar menú al hacer clic en enlaces
     const navLinks = document.querySelectorAll('.header__nav-link');
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            // Solo cerrar si el menú está activo (en vista móvil)
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-                toggleBtn.classList.remove('active');
-                document.body.classList.remove('no-scroll');
-                console.log('[header.js] Menú móvil cerrado al hacer clic en enlace');
-            }
+        link.addEventListener('click', () => {
+            closeMobileMenu(nav, toggleBtn);
         });
     });
-    
-    // Cerrar menú al hacer clic fuera de él
-    document.addEventListener('click', function(event) {
-        const isClickInsideNav = nav.contains(event.target);
-        const isClickOnToggle = toggleBtn.contains(event.target);
-        
-        if (nav.classList.contains('active') && !isClickInsideNav && !isClickOnToggle) {
-            nav.classList.remove('active');
-            toggleBtn.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            console.log('[header.js] Menú móvil cerrado al hacer clic fuera');
+
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && !toggleBtn.contains(e.target)) {
+            closeMobileMenu(nav, toggleBtn);
         }
     });
+
+    // Cerrar menú al redimensionar la ventana (si se cambia a desktop)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeMobileMenu(nav, toggleBtn);
+        }
+    });
+}
+
+/**
+ * Abre/cierra el menú móvil
+ */
+function toggleMobileMenu(nav, toggleBtn) {
+    const isOpening = !nav.classList.contains('active');
+    
+    nav.classList.toggle('active');
+    toggleBtn.classList.toggle('active');
+    document.body.classList.toggle('no-scroll');
+    
+    console.log(`[header.js] Menú móvil ${isOpening ? 'abierto' : 'cerrado'}`);
+}
+
+/**
+ * Cierra el menú móvil
+ */
+function closeMobileMenu(nav, toggleBtn) {
+    if (nav.classList.contains('active')) {
+        nav.classList.remove('active');
+        toggleBtn.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        console.log('[header.js] Menú móvil cerrado');
+    }
 }
 
 /**
@@ -112,91 +124,114 @@ function initAnchorNavigation() {
     console.log(`[header.js] Encontrados ${anchorLinks.length} enlaces de ancla`);
     
     anchorLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            const href = this.getAttribute('href');
-            
-            // Ignorar enlaces vacíos o que no sean anclas simples
-            if (href === '#' || href === '#!') {
-                event.preventDefault();
-                return;
-            }
-            
-            // Verificar si estamos en la página de inicio
-            const isHomePage = window.location.pathname.endsWith('index.html') || 
-                              window.location.pathname.endsWith('/') || 
-                              window.location.pathname === '';
-            
-            if (!isHomePage && href !== '#inicio') {
-                // Redirigir a la página de inicio con el ancla
-                event.preventDefault();
-                const targetPage = `index.html${href}`;
-                console.log(`[header.js] Redirigiendo a: ${targetPage}`);
-                window.location.href = targetPage;
-                return;
-            }
-            
-            // Comportamiento normal para la página de inicio
-            handleAnchorClick(event, href);
+        link.addEventListener('click', function(e) {
+            handleAnchorClick(e, this.getAttribute('href'));
         });
     });
 }
 
 /**
- * Maneja el clic en un enlace de ancla
- * @param {Event} event - Evento del clic
- * @param {string} href - Valor del atributo href
+ * Maneja el clic en enlaces de ancla
  */
 function handleAnchorClick(event, href) {
-    if (href === '#inicio') {
-        // Scroll suave al top de la página
+    // Ignorar enlaces vacíos
+    if (href === '#' || href === '#!') {
         event.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-        console.log('[header.js] Scroll al inicio de la página');
+        return;
+    }
+
+    const targetId = href.substring(1);
+    
+    // Verificar si estamos en la página de inicio
+    const isHomePage = isCurrentPageHome();
+    
+    if (!isHomePage && targetId !== 'inicio') {
+        // Redirigir a la página de inicio con el ancla
+        event.preventDefault();
+        redirectToHomeWithAnchor(href);
         return;
     }
     
-    const targetId = href.substring(1); // Remover el #
+    // Comportamiento para página de inicio
+    handleHomePageAnchor(event, href, targetId);
+}
+
+/**
+ * Verifica si la página actual es la página de inicio
+ */
+function isCurrentPageHome() {
+    const pathname = window.location.pathname;
+    return pathname.endsWith('index.html') || 
+           pathname.endsWith('/') || 
+           pathname === '' ||
+           pathname.includes('index.html');
+}
+
+/**
+ * Redirige a la página de inicio con el ancla correspondiente
+ */
+function redirectToHomeWithAnchor(anchor) {
+    const homeUrl = window.location.origin + 
+                   (window.location.pathname.includes('index.html') ? 
+                    window.location.pathname.replace(/[^/]*$/, 'index.html') : 
+                    'index.html') + 
+                   anchor;
+    
+    console.log(`[header.js] Redirigiendo a: ${homeUrl}`);
+    window.location.href = homeUrl;
+}
+
+/**
+ * Maneja los clics en anclas dentro de la página de inicio
+ */
+function handleHomePageAnchor(event, href, targetId) {
+    if (targetId === 'inicio') {
+        // Scroll al inicio de la página
+        event.preventDefault();
+        scrollToTop();
+        return;
+    }
+    
     const targetElement = document.getElementById(targetId);
     
     if (targetElement) {
         event.preventDefault();
-        
-        // Scroll suave al elemento objetivo
-        targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-        
-        // Actualizar la URL sin recargar la página
-        history.pushState(null, null, href);
-        
-        console.log(`[header.js] Scroll suave a: ${targetId}`);
+        scrollToElement(targetElement, href);
     } else {
         console.warn(`[header.js] Elemento objetivo no encontrado: ${targetId}`);
     }
 }
 
 /**
- * Función auxiliar para verificar si un elemento está en el viewport
- * @param {HTMLElement} element - Elemento a verificar
- * @returns {boolean} True si el elemento está visible
+ * Realiza scroll suave al top de la página
  */
-export function isElementInViewport(element) {
-    if (!element) return false;
-    
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    console.log('[header.js] Scroll al inicio de la página');
 }
 
-// Inicialización automática si se carga directamente (para compatibilidad)
+/**
+ * Realiza scroll suave a un elemento específico
+ */
+function scrollToElement(element, href) {
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+    const elementPosition = element.offsetTop - headerHeight - 20;
+    
+    window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+    });
+    
+    // Actualizar URL
+    history.pushState(null, null, href);
+    
+    console.log(`[header.js] Scroll suave a: ${element.id}`);
+}
+
+// Inicialización automática si se carga directamente
 if (import.meta.url === document.currentScript?.src) {
     document.addEventListener('DOMContentLoaded', () => {
         initHeader();

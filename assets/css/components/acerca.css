@@ -207,7 +207,133 @@
     line-height: 1.6;
 }
 
+/* NUEVA SECCIÓN: Equipo de Expertos */
+.team-section {
+    padding: var(--space-9) 0;
+    background: linear-gradient(135deg, var(--color-fondo) 0%, var(--color-blanco) 100%);
+}
+
+.team-section__title {
+    font-family: var(--font-principal);
+    font-size: var(--fs-xxl);
+    color: var(--color-primario);
+    text-align: center;
+    margin-bottom: var(--space-4);
+}
+
+.team-section__description {
+    font-family: var(--font-cuerpo);
+    font-size: var(--fs-md);
+    color: var(--color-texto);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-7);
+    line-height: 1.6;
+}
+
+/* Grid del equipo */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+}
+
+/* Tarjeta de miembro del equipo */
+.team-member {
+    background-color: var(--color-blanco);
+    padding: var(--space-5);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid var(--color-fondo-oscuro);
+    position: relative;
+    overflow: hidden;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-acento);
+}
+
+/* Efecto de acento sutil al hover */
+.team-member::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-acento), transparent);
+    transition: left 0.6s ease;
+}
+
+.team-member:hover::before {
+    left: 100%;
+}
+
+/* Imagen del miembro */
+.team-member__image {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto var(--space-4);
+    border-radius: 50%;
+    border: 3px solid var(--color-acento);
+    padding: 3px;
+    background-color: var(--color-blanco);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover .team-member__image {
+    transform: scale(1.05);
+}
+
+.team-member__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Información del miembro */
+.team-member__name {
+    font-family: var(--font-principal);
+    font-size: var(--fs-lg);
+    color: var(--color-primario);
+    margin-bottom: var(--space-2);
+    font-weight: 600;
+}
+
+.team-member__role {
+    font-family: var(--font-cuerpo);
+    font-size: var(--fs-md);
+    color: var(--color-acento);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.team-member__bio {
+    font-family: var(--font-cuerpo);
+    font-size: var(--fs-base);
+    color: var(--color-texto);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
 /* Estilos responsivos */
+@media (max-width: 1024px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-5);
+    }
+}
+
 @media (max-width: 768px) {
     .timeline__item {
         width: 100%;
@@ -233,5 +359,60 @@
     
     .about__grid {
         grid-template-columns: 1fr;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    
+    .team-section {
+        padding: var(--space-7) 0;
+    }
+    
+    .team-section__title {
+        font-size: var(--fs-xl);
+    }
+    
+    .team-member {
+        padding: var(--space-4);
+    }
+}
+
+@media (max-width: 480px) {
+    .team-member__image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .team-member__name {
+        font-size: var(--fs-md);
+    }
+    
+    .team-member__role {
+        font-size: var(--fs-sm);
+    }
+    
+    .team-member__bio {
+        font-size: var(--fs-sm);
+    }
+}
+
+/* Animación de entrada para los miembros del equipo */
+.team-member {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.team-member:nth-child(1) { animation-delay: 0.1s; }
+.team-member:nth-child(2) { animation-delay: 0.2s; }
+.team-member:nth-child(3) { animation-delay: 0.3s; }
+.team-member:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
