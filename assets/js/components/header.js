@@ -146,7 +146,7 @@ function handleAnchorClick(event, href) {
     const isHomePage = isCurrentPageHome();
     
     if (!isHomePage && targetId !== 'inicio') {
-        // Redirigir a la página de inicio con el ancla
+        // CORRECCIÓN: Redirigir a la página de inicio con el ancla
         event.preventDefault();
         redirectToHomeWithAnchor(href);
         return;
@@ -161,21 +161,29 @@ function handleAnchorClick(event, href) {
  */
 function isCurrentPageHome() {
     const pathname = window.location.pathname;
-    return pathname.endsWith('index.html') || 
-           pathname.endsWith('/') || 
-           pathname === '' ||
-           pathname.includes('index.html');
+    const currentPage = pathname.split('/').pop();
+    
+    return currentPage === 'index.html' || 
+           currentPage === '' ||
+           pathname.endsWith('/') ||
+           !currentPage.includes('.html'); // Para servidores locales
 }
 
 /**
  * Redirige a la página de inicio con el ancla correspondiente
  */
 function redirectToHomeWithAnchor(anchor) {
-    const homeUrl = window.location.origin + 
-                   (window.location.pathname.includes('index.html') ? 
-                    window.location.pathname.replace(/[^/]*$/, 'index.html') : 
-                    'index.html') + 
-                   anchor;
+    // CORRECCIÓN: Construir URL correctamente para cualquier escenario
+    const baseUrl = window.location.origin + window.location.pathname;
+    let homeUrl;
+    
+    if (baseUrl.includes('proyectos.html') || baseUrl.includes('proyecto-detalle.html')) {
+        // Si estamos en una página secundaria, navegar a index.html
+        homeUrl = baseUrl.replace(/[^/]*$/, 'index.html') + anchor;
+    } else {
+        // Para otros casos, usar la URL base
+        homeUrl = baseUrl.replace(/[^/]*$/, 'index.html') + anchor;
+    }
     
     console.log(`[header.js] Redirigiendo a: ${homeUrl}`);
     window.location.href = homeUrl;
