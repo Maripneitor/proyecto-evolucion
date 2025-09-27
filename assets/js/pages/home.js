@@ -4,9 +4,11 @@
  */
 
 import { initAcercaSection } from '../components/acerca.js';
+import { initHeroSlider } from '../components/hero.js';
 
 /**
  * Función para cargar componentes específicos de la página de inicio
+ * Reutilizamos la lógica de loadComponent
  */
 async function loadPageComponent(componentId, filePath) {
     try {
@@ -29,6 +31,32 @@ async function loadPageComponent(componentId, filePath) {
     }
 }
 
+/**
+ * Maneja el scroll a anclas cuando la página carga con un hash en la URL
+ */
+function handleAnchorOnLoad() {
+    if (window.location.hash) {
+        console.log(`[home.js] URL contiene hash: ${window.location.hash}`);
+        
+        // Pequeño retraso para asegurar que todo el contenido (especialmente los parciales) esté cargado
+        setTimeout(() => {
+            const element = document.querySelector(window.location.hash);
+            if (element) {
+                console.log(`[home.js] Haciendo scroll a: ${window.location.hash}`);
+                const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+                const elementPosition = element.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: elementPosition,
+                    behavior: 'smooth'
+                });
+            } else {
+                console.warn(`[home.js] Elemento no encontrado: ${window.location.hash}`);
+            }
+        }, 500); // 500ms de retraso
+    }
+}
+
 // Inicialización de la página de inicio
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('[home.js] Inicializando página de inicio...');
@@ -43,9 +71,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         console.log('[home.js] Todos los componentes de la página de inicio han sido cargados.');
         
+        // Inicializa el slider hero después de cargar el contenido
+        console.log('[home.js] Inicializando slider hero...');
+        initHeroSlider();
+        
         // Inicializa los scripts específicos de la página de inicio
         console.log('[home.js] Inicializando sección "Acerca de"...');
         initAcercaSection();
+        
+        // Manejar scroll a anclas si la URL contiene un hash
+        handleAnchorOnLoad();
         
         console.log('[home.js] Página de inicio inicializada correctamente.');
         

@@ -120,123 +120,48 @@ function closeMobileMenu(nav, toggleBtn) {
 function initAnchorNavigation() {
     console.log('[header.js] Configurando navegación por anclas...');
     
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    console.log(`[header.js] Encontrados ${anchorLinks.length} enlaces de ancla`);
-    
-    anchorLinks.forEach(link => {
+    const navLinks = document.querySelectorAll('.header__nav-link');
+    navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            handleAnchorClick(e, this.getAttribute('href'));
+            const targetHref = this.getAttribute('href');
+            const isAnchorLink = targetHref.startsWith('#');
+
+            if (isAnchorLink) {
+                // Si es un enlace de ancla (ej: #contacto)
+                e.preventDefault();
+                console.log(`[header.js] Clic en ancla: ${targetHref}`);
+                
+                // Comprueba si ya estamos en la página de inicio
+                const currentPage = window.location.pathname.split('/').pop();
+                const isHomePage = currentPage === 'index.html' || currentPage === '' || window.location.pathname.endsWith('/');
+                
+                if (isHomePage) {
+                    // Si SÍ estamos en el inicio, solo haz scroll suave
+                    console.log(`[header.js] Scroll suave a: ${targetHref}`);
+                    const targetElement = document.querySelector(targetHref);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+                        const elementPosition = targetElement.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: elementPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Actualizar URL
+                        history.pushState(null, null, targetHref);
+                    } else {
+                        console.warn(`[header.js] Elemento no encontrado: ${targetHref}`);
+                    }
+                } else {
+                    // Si NO estamos en el inicio, redirige a la página de inicio con el ancla
+                    console.log(`[header.js] Redirigiendo a index.html${targetHref}`);
+                    window.location.href = `index.html${targetHref}`;
+                }
+            }
+            // Si no es un ancla (ej: proyectos.html), el navegador lo manejará normalmente.
         });
     });
-}
-
-/**
- * Maneja el clic en enlaces de ancla
- */
-function handleAnchorClick(event, href) {
-    // Ignorar enlaces vacíos
-    if (href === '#' || href === '#!') {
-        event.preventDefault();
-        return;
-    }
-
-    const targetId = href.substring(1);
-    
-    // Verificar si estamos en la página de inicio
-    const isHomePage = isCurrentPageHome();
-    
-    if (!isHomePage && targetId !== 'inicio') {
-        // CORRECCIÓN: Redirigir a la página de inicio con el ancla
-        event.preventDefault();
-        redirectToHomeWithAnchor(href);
-        return;
-    }
-    
-    // Comportamiento para página de inicio
-    handleHomePageAnchor(event, href, targetId);
-}
-
-/**
- * Verifica si la página actual es la página de inicio
- */
-function isCurrentPageHome() {
-    const pathname = window.location.pathname;
-    const currentPage = pathname.split('/').pop();
-    
-    return currentPage === 'index.html' || 
-           currentPage === '' ||
-           pathname.endsWith('/') ||
-           !currentPage.includes('.html'); // Para servidores locales
-}
-
-/**
- * Redirige a la página de inicio con el ancla correspondiente
- */
-function redirectToHomeWithAnchor(anchor) {
-    // CORRECCIÓN: Construir URL correctamente para cualquier escenario
-    const baseUrl = window.location.origin + window.location.pathname;
-    let homeUrl;
-    
-    if (baseUrl.includes('proyectos.html') || baseUrl.includes('proyecto-detalle.html')) {
-        // Si estamos en una página secundaria, navegar a index.html
-        homeUrl = baseUrl.replace(/[^/]*$/, 'index.html') + anchor;
-    } else {
-        // Para otros casos, usar la URL base
-        homeUrl = baseUrl.replace(/[^/]*$/, 'index.html') + anchor;
-    }
-    
-    console.log(`[header.js] Redirigiendo a: ${homeUrl}`);
-    window.location.href = homeUrl;
-}
-
-/**
- * Maneja los clics en anclas dentro de la página de inicio
- */
-function handleHomePageAnchor(event, href, targetId) {
-    if (targetId === 'inicio') {
-        // Scroll al inicio de la página
-        event.preventDefault();
-        scrollToTop();
-        return;
-    }
-    
-    const targetElement = document.getElementById(targetId);
-    
-    if (targetElement) {
-        event.preventDefault();
-        scrollToElement(targetElement, href);
-    } else {
-        console.warn(`[header.js] Elemento objetivo no encontrado: ${targetId}`);
-    }
-}
-
-/**
- * Realiza scroll suave al top de la página
- */
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-    console.log('[header.js] Scroll al inicio de la página');
-}
-
-/**
- * Realiza scroll suave a un elemento específico
- */
-function scrollToElement(element, href) {
-    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
-    const elementPosition = element.offsetTop - headerHeight - 20;
-    
-    window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-    });
-    
-    // Actualizar URL
-    history.pushState(null, null, href);
-    
-    console.log(`[header.js] Scroll suave a: ${element.id}`);
 }
 
 // Inicialización automática si se carga directamente

@@ -1,15 +1,65 @@
 <section class="hero" id="inicio">
-    <!-- Fondo con imagen -->
-    <div class="hero__background">
-        <div class="hero__overlay"></div>
+    <!-- Slider de fondo -->
+    <div class="hero-slider">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide__background"></div>
+            <div class="slide__overlay"></div>
+            <div class="slide__content">
+                <h1 class="slide__title">Preservando la Historia, Restaurando el Futuro</h1>
+                <p class="slide__description">Expertos en arqueología y restauración de patrimonio cultural con más de una década de experiencia internacional.</p>
+            </div>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide__background"></div>
+            <div class="slide__overlay"></div>
+            <div class="slide__content">
+                <h1 class="slide__title">Tecnología Avanzada en Arqueología</h1>
+                <p class="slide__description">Utilizamos las últimas tecnologías como LIDAR y drones para descubrir y documentar sitios arqueológicos ocultos.</p>
+            </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide__background"></div>
+            <div class="slide__overlay"></div>
+            <div class="slide__content">
+                <h1 class="slide__title">Proyectos Internacionales de Restauración</h1>
+                <p class="slide__description">Hemos trabajado en más de 15 países preservando monumentos históricos y sitios del patrimonio mundial.</p>
+            </div>
+        </div>
+        
+        <!-- Slide 4 -->
+        <div class="slide">
+            <div class="slide__background"></div>
+            <div class="slide__overlay"></div>
+            <div class="slide__content">
+                <h1 class="slide__title">Compromiso con las Generaciones Futuras</h1>
+                <p class="slide__description">Nuestro trabajo asegura que el patrimonio cultural perdure para el disfrute y estudio de las generaciones venideras.</p>
+            </div>
+        </div>
     </div>
     
-    <!-- Contenido superpuesto -->
+    <!-- Controles de navegación -->
+    <button class="slider-arrow slider-arrow--prev" aria-label="Diapositiva anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+        </svg>
+    </button>
+    <button class="slider-arrow slider-arrow--next" aria-label="Diapositiva siguiente">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+        </svg>
+    </button>
+    
+    <!-- Indicadores de puntos -->
+    <div class="slider-dots"></div>
+    
+    <!-- Contenedor de botones (mantenido para consistencia) -->
     <div class="hero__content">
         <div class="container">
-            <h1 class="hero__title animate-fade-in">Preservando la Historia, Restaurando el Futuro</h1>
-            <p class="hero__description animate-fade-in" data-delay="0.2s">Somos un equipo de expertos dedicados a la arqueología y restauración de monumentos, comprometidos con la protección de nuestro patrimonio cultural para las generaciones venideras.</p>
-            
             <div class="hero__buttons">
                 <a href="#proyectos" class="btn btn--primary animate-slide-up" data-delay="0.4s">Descubre Nuestros Proyectos</a>
                 <a href="#contacto" class="btn btn--secondary animate-slide-up" data-delay="0.5s">Contáctanos</a>
