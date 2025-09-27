@@ -42,20 +42,28 @@
         </div>
     </div>
     
-    <!-- Controles de navegación -->
-    <button class="slider-arrow slider-arrow--prev" aria-label="Diapositiva anterior">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 18l-6-6 6-6"/>
-        </svg>
-    </button>
-    <button class="slider-arrow slider-arrow--next" aria-label="Diapositiva siguiente">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18l6-6-6-6"/>
-        </svg>
-    </button>
-    
-    <!-- Indicadores de puntos -->
-    <div class="slider-dots"></div>
+    <!-- Controles de navegación COMPLETADOS -->
+    <div class="slider-controls">
+        <button class="slider-arrow prev" aria-label="Diapositiva anterior">&#10094;</button>
+        
+        <!-- Contenedor de puntos - ESTRUCTURA COMPLETA AÑADIDA -->
+        <div class="slider-dots" role="tablist" aria-label="Seleccionar diapositiva">
+            <button class="slider-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Diapositiva 1">
+                <span class="slider-dot__inner"></span>
+            </button>
+            <button class="slider-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Diapositiva 2">
+                <span class="slider-dot__inner"></span>
+            </button>
+            <button class="slider-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Diapositiva 3">
+                <span class="slider-dot__inner"></span>
+            </button>
+            <button class="slider-dot" data-slide="3" role="tab" aria-selected="false" aria-label="Diapositiva 4">
+                <span class="slider-dot__inner"></span>
+            </button>
+        </div>
+        
+        <button class="slider-arrow next" aria-label="Siguiente diapositiva">&#10095;</button>
+    </div>
     
     <!-- Contenedor de botones (mantenido para consistencia) -->
     <div class="hero__content">
