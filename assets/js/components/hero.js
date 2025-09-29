@@ -424,7 +424,7 @@ export function destroyHeroSlider() {
     console.log('[hero.js] 🔴 Slider destruido completamente');
 }
 
-// Inicialización automática si se carga directamente
+// Inicialización automática si se carga direaactamente
 if (typeof import.meta !== 'undefined' && import.meta.url === document.currentScript?.src) {
     document.addEventListener('DOMContentLoaded', () => {
         console.log('[hero.js] 🔧 Inicialización automática iniciada');
