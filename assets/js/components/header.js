@@ -1,7 +1,7 @@
 /**
  * header.js - Funcionalidad completa del header para el proyecto Evolución
  * Proyecto Evolución - Arqueología y Restauración
- * VERSIÓN COMPLETAMENTE CORREGIDA - Scroll y navegación funcionando
+ * VERSIÓN CORREGIDA - Scroll y navegación funcionando correctamente
  */
 
 // Estado global para controlar la inicialización
@@ -28,7 +28,7 @@ export function initHeader() {
  * Intenta inicializar el header con múltiples reintentos si es necesario
  */
 function attemptHeaderInitialization(retryCount = 0) {
-    const maxRetries = 10; // Aumentado para carga asíncrona
+    const maxRetries = 10;
     
     try {
         // Verificar que el header existe y está visible en el DOM
@@ -48,14 +48,13 @@ function attemptHeaderInitialization(retryCount = 0) {
 
         console.log('[header.js] ✅ Header encontrado en el DOM, procediendo con inicialización...');
         
-        // Inicializar funcionalidades con delay para asegurar renderizado completo
-        setTimeout(() => {
-            initScrollEffect(header);
-            initMobileMenu();
-            initAnchorNavigation();
-            headerInitialized = true;
-            console.log('[header.js] ✅ Header inicializado completamente y listo');
-        }, 100);
+        // Inicializar funcionalidades
+        initScrollEffect(header);
+        initMobileMenu();
+        initAnchorNavigation();
+        headerInitialized = true;
+        
+        console.log('[header.js] ✅ Header inicializado completamente y listo');
 
     } catch (error) {
         console.error('[header.js] ❌ Error durante el intento de inicialización:', error);
@@ -63,7 +62,7 @@ function attemptHeaderInitialization(retryCount = 0) {
 }
 
 /**
- * Inicializa el efecto de scroll en el header con manejo robusto - CORREGIDO
+ * Inicializa el efecto de scroll en el header - CORREGIDO
  */
 function initScrollEffect(header) {
     console.log('[header.js] 📜 Configurando efecto de scroll...');
@@ -99,7 +98,7 @@ function initScrollEffect(header) {
         }
     };
 
-    // Throttling para mejor rendimiento - MEJORADO
+    // Throttling para mejor rendimiento
     let ticking = false;
     scrollHandler = () => {
         if (!ticking) {
@@ -111,19 +110,21 @@ function initScrollEffect(header) {
         }
     };
 
-    // Handler para resize - MEJORADO
+    // Handler para resize
     resizeHandler = () => {
         updateScrollState();
     };
 
-    // Configurar event listeners
+    // Configurar event listeners - CORREGIDO: siempre aplicar scroll effect
     window.addEventListener('scroll', scrollHandler, { passive: true });
     window.addEventListener('resize', resizeHandler, { passive: true });
     
-    // Aplicar estado inicial inmediatamente y después de delays estratégicos
+    // Aplicar estado inicial inmediatamente
     updateScrollState();
+    
+    // Verificaciones adicionales para asegurar funcionamiento
     setTimeout(updateScrollState, 100);
-    setTimeout(updateScrollState, 500); // Delay adicional para carga completa
+    setTimeout(updateScrollState, 500);
     
     // Forzar actualización cuando termina la carga
     window.addEventListener('load', updateScrollState);
@@ -132,7 +133,7 @@ function initScrollEffect(header) {
 }
 
 /**
- * Inicializa el menú móvil - CORREGIDO
+ * Inicializa el menú móvil
  */
 function initMobileMenu() {
     console.log('[header.js] 📱 Configurando menú móvil...');
@@ -145,82 +146,59 @@ function initMobileMenu() {
         return;
     }
 
-    // Clonar y reemplazar para limpiar event listeners
-    const newToggleBtn = toggleBtn.cloneNode(true);
-    toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
-
-    // Toggle del menú móvil - CORREGIDO
-    newToggleBtn.addEventListener('click', function(e) {
+    // Toggle del menú móvil
+    toggleBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         console.log('[header.js] 📱 Click en botón menú móvil');
-        toggleMobileMenu(nav, newToggleBtn);
+        
+        nav.classList.toggle('active');
+        toggleBtn.classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
+        
+        toggleBtn.setAttribute('aria-expanded', nav.classList.contains('active'));
     });
 
-    // Cerrar menú al hacer clic en enlaces - MEJORADO
+    // Cerrar menú al hacer clic en enlaces
     const navLinks = document.querySelectorAll('.header__nav-link');
     navLinks.forEach(link => {
-        // Remover listeners antiguos y añadir nuevos
-        const newLink = link.cloneNode(true);
-        link.parentNode.replaceChild(newLink, link);
-        
-        newLink.addEventListener('click', (e) => {
-            // Solo cerrar si el menú está activo (en vista móvil)
+        link.addEventListener('click', () => {
             if (nav.classList.contains('active')) {
                 console.log('[header.js] 📱 Cerrando menú móvil al hacer clic en enlace');
-                closeMobileMenu(nav, newToggleBtn);
+                nav.classList.remove('active');
+                toggleBtn.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+                toggleBtn.setAttribute('aria-expanded', 'false');
             }
-            // NO prevenir el comportamiento por defecto - permite la navegación normal
         });
     });
 
-    // Cerrar menú al hacer clic fuera - MEJORADO
+    // Cerrar menú al hacer clic fuera
     document.addEventListener('click', (e) => {
         const isClickInsideNav = nav.contains(e.target);
-        const isClickOnToggle = newToggleBtn.contains(e.target);
+        const isClickOnToggle = toggleBtn.contains(e.target);
         
         if (nav.classList.contains('active') && !isClickInsideNav && !isClickOnToggle) {
             console.log('[header.js] 📱 Cerrando menú móvil al hacer clic fuera');
-            closeMobileMenu(nav, newToggleBtn);
+            nav.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            toggleBtn.setAttribute('aria-expanded', 'false');
         }
     });
 
-    // Cerrar menú al redimensionar - MEJORADO
+    // Cerrar menú al redimensionar
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768 && nav.classList.contains('active')) {
             console.log('[header.js] 📱 Cerrando menú móvil al redimensionar a escritorio');
-            closeMobileMenu(nav, newToggleBtn);
+            nav.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            toggleBtn.setAttribute('aria-expanded', 'false');
         }
     });
 
     console.log('[header.js] ✅ Menú móvil configurado');
-}
-
-/**
- * Abre/cierra el menú móvil
- */
-function toggleMobileMenu(nav, toggleBtn) {
-    const isOpening = !nav.classList.contains('active');
-    
-    nav.classList.toggle('active');
-    toggleBtn.classList.toggle('active');
-    document.body.classList.toggle('no-scroll');
-    
-    toggleBtn.setAttribute('aria-expanded', nav.classList.contains('active'));
-    console.log(`[header.js] 📱 Menú móvil ${isOpening ? 'abierto' : 'cerrado'}`);
-}
-
-/**
- * Cierra el menú móvil
- */
-function closeMobileMenu(nav, toggleBtn) {
-    if (nav.classList.contains('active')) {
-        nav.classList.remove('active');
-        toggleBtn.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-        toggleBtn.setAttribute('aria-expanded', 'false');
-        console.log('[header.js] 📱 Menú móvil cerrado');
-    }
 }
 
 /**
@@ -240,31 +218,29 @@ function initAnchorNavigation() {
     console.log(`[header.js] 🔗 Encontrados ${navLinks.length} enlaces de navegación`);
 
     navLinks.forEach(link => {
-        // Clonar y reemplazar para limpiar listeners
-        const newLink = link.cloneNode(true);
-        link.parentNode.replaceChild(newLink, link);
-        
-        const href = newLink.getAttribute('href');
+        const href = link.getAttribute('href');
         
         // Solo manejar enlaces que son anclas internas (#)
-        if (href.startsWith('#')) {
-            newLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log(`[header.js] 🔗 Clic en enlace de ancla: ${href}`);
-                handleAnchorNavigation(href);
-            });
+        if (href && href.startsWith('#')) {
+            // Remover cualquier listener anterior y añadir nuevo
+            link.removeEventListener('click', handleAnchorClick);
+            link.addEventListener('click', handleAnchorClick);
         }
-        // Los enlaces normales (proyectos.html, etc.) se comportan normalmente
     });
 
     console.log('[header.js] ✅ Navegación por anclas configurada correctamente');
 }
 
 /**
- * Maneja la navegación por anclas - LÓGICA CRÍTICA COMPLETAMENTE CORREGIDA
+ * Maneja el clic en enlaces de ancla - LÓGICA COMPLETAMENTE CORREGIDA
  */
-function handleAnchorNavigation(href) {
-    // Verificar si estamos en la página de inicio - DETECCIÓN MEJORADA
+function handleAnchorClick(e) {
+    e.preventDefault();
+    
+    const href = this.getAttribute('href');
+    console.log(`[header.js] 🔗 Clic en enlace de ancla: ${href}`);
+    
+    // Verificar si estamos en la página de inicio
     const isHomePage = isCurrentPageHome();
     
     console.log(`[header.js] 🔗 Navegación: ${href} | Página actual: ${isHomePage ? 'Inicio' : 'Secundaria'}`);
@@ -284,12 +260,8 @@ function handleAnchorNavigation(href) {
 function isCurrentPageHome() {
     const pathname = window.location.pathname;
     const currentPage = pathname.split('/').pop() || '';
-    const hostname = window.location.hostname;
     
-    // Lógica robusta para detectar página de inicio - MEJORADA
-    const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
-    
-    // Para servidor local y producción
+    // Lógica robusta para detectar página de inicio
     const homeIndicators = [
         'index.html',
         '',
@@ -301,14 +273,14 @@ function isCurrentPageHome() {
     let isHome = homeIndicators.includes(currentPage) || 
                  pathname.endsWith('/');
     
-    // Casos especiales para desarrollo local
-    if (isLocalhost && !currentPage) {
-        isHome = true;
+    // Verificar explícitamente si estamos en páginas secundarias conocidas
+    const secondaryPages = ['proyectos.html', 'proyectos', 'contacto.html', 'acerca.html', 'servicios.html'];
+    if (secondaryPages.includes(currentPage)) {
+        isHome = false;
     }
     
-    // Verificar explícitamente si NO estamos en páginas secundarias conocidas
-    const secondaryPages = ['proyectos.html', 'proyectos', 'contacto.html', 'acerca.html'];
-    if (secondaryPages.includes(currentPage)) {
+    // Caso especial: si no hay extensión y no es vacío, probablemente no es home
+    if (currentPage && !currentPage.includes('.') && !homeIndicators.includes(currentPage)) {
         isHome = false;
     }
     
@@ -350,11 +322,11 @@ function smoothScrollToSection(sectionId) {
     console.log(`[header.js] 🎯 Haciendo scroll suave a: ${sectionId}, posición: ${offsetPosition}px`);
     
     window.scrollTo({
-        top: Math.max(0, offsetPosition), // Asegurar que no sea negativo
+        top: Math.max(0, offsetPosition),
         behavior: 'smooth'
     });
     
-    // Actualizar URL sin recargar - MEJORADO
+    // Actualizar URL sin recargar
     try {
         if (history.pushState) {
             history.pushState(null, null, sectionId);
@@ -367,7 +339,7 @@ function smoothScrollToSection(sectionId) {
 }
 
 /**
- * Redirige a la página de inicio con ancla - COMPLETAMENTE CORREGIDO
+ * Redirige a la página de inicio con ancla - LÓGICA SIMPLIFICADA Y CORREGIDA
  */
 function redirectToHomeWithAnchor(anchor) {
     // Validar el anchor
@@ -375,39 +347,19 @@ function redirectToHomeWithAnchor(anchor) {
         anchor = '';
     }
     
-    const currentPath = window.location.pathname;
-    let homePath = '';
+    // Construir URL base del home
+    const baseUrl = window.location.origin;
+    let homeUrl = baseUrl + '/index.html' + anchor;
     
-    // Construir ruta correcta al index.html - LÓGICA MEJORADA
-    if (currentPath.includes('proyectos.html')) {
-        // Caso específico: desde proyectos.html
-        homePath = currentPath.replace('proyectos.html', 'index.html') + anchor;
-    } else if (currentPath.endsWith('/proyectos/')) {
-        // Caso específico: desde directorio proyectos/
-        homePath = currentPath.replace('/proyectos/', '/') + 'index.html' + anchor;
-    } else {
-        // Caso general: reemplazar el archivo actual por index.html
-        homePath = currentPath.replace(/[^/]*$/, 'index.html') + anchor;
-    }
-    
-    // Limpiar posibles dobles barras
-    homePath = homePath.replace(/([^:]\/)\/+/g, '$1');
-    
-    // Construir URL absoluta de manera robusta
-    let homeUrl;
-    try {
-        homeUrl = new URL(homePath, window.location.origin).href;
-    } catch (e) {
-        // Fallback si URL constructor falla
-        homeUrl = window.location.origin + (homePath.startsWith('/') ? '' : '/') + homePath;
+    // Para desarrollo local, manejar diferentes estructuras de carpetas
+    if (window.location.pathname.includes('/proyectos/') || window.location.pathname.includes('/proyectos.html')) {
+        homeUrl = baseUrl + '/index.html' + anchor;
     }
     
     console.log(`[header.js] 🔄 Redirigiendo de ${window.location.href} a: ${homeUrl}`);
     
-    // Redirigir después de un pequeño delay para mejor UX
-    setTimeout(() => {
-        window.location.href = homeUrl;
-    }, 100);
+    // Redirigir inmediatamente
+    window.location.href = homeUrl;
 }
 
 /**
@@ -422,6 +374,13 @@ export function cleanupHeader() {
         window.removeEventListener('resize', resizeHandler);
         resizeHandler = null;
     }
+    
+    // Limpiar event listeners de enlaces
+    const navLinks = document.querySelectorAll('.header__nav-link[href]');
+    navLinks.forEach(link => {
+        link.removeEventListener('click', handleAnchorClick);
+    });
+    
     headerInitialized = false;
     console.log('[header.js] 🧹 Header limpiado para reinicialización');
 }

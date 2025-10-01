@@ -101,6 +101,16 @@
     gap: var(--space-6);
 }
 
+/* Estilos base para tarjetas en vista grid */
+.projects-container.view-grid .project-card {
+    display: block;
+    width: auto;
+    height: 100%;
+    flex-direction: row;
+    max-width: none;
+    min-height: auto;
+}
+
 /* Vista de lista */
 .projects-container.view-list .projects-grid {
     display: flex;
@@ -166,7 +176,7 @@
     margin: 0;
 }
 
-/* Tarjeta de proyecto */
+/* Tarjeta de proyecto - ESTILOS BASE CORREGIDOS */
 .project-card {
     display: block;
     background-color: var(--color-blanco);
@@ -178,6 +188,10 @@
     transition: all 0.3s ease;
     height: 100%;
     border: 2px solid transparent;
+    /* Propiedades explícitas para vista grid */
+    width: auto;
+    flex-direction: column;
+    min-height: auto;
 }
 
 .project-card:hover {
